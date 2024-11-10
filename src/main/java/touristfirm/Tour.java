@@ -10,9 +10,7 @@ public class Tour implements Comparable<Tour> {
     private int duration;
     private double price;
 
-    // Конструктор за замовчуванням для Jackson
-    public Tour() {
-    }
+    public Tour() {}
 
     @JsonCreator
     public Tour(@JsonProperty("name") String name,
@@ -23,7 +21,6 @@ public class Tour implements Comparable<Tour> {
         this.price = price;
     }
 
-    // Геттери
     public String getName() {
         return name;
     }
@@ -35,7 +32,6 @@ public class Tour implements Comparable<Tour> {
     public double getPrice() {
         return price;
     }
-
 
     public static class Builder {
         private String name;

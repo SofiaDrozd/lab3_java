@@ -1,22 +1,23 @@
 package touristfirm.serializers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import touristfirm.Tour;
 
-public class JsonSerializer implements Serializer<Tour> {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+public class JsonSerializer {
+    private final ObjectMapper objectMapper;
 
-    @Override
-    public void serialize(List<Tour> tours, String filePath) throws IOException {
-        objectMapper.writeValue(new File(filePath), tours);
+    public JsonSerializer() {
+        objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule()); // Підтримка LocalDate
     }
 
-    @Override
-    public List<Tour> deserialize(String filePath) throws IOException {
-        return objectMapper.readValue(new File(filePath), new TypeReference<List<Tour>>() {});
+    public void serialize(Object object, String filePath) throws IOException {
+        objectMapper.writeValue(new File(filePath), object);
+    }
+
+    public <T> T deserialize(String filePath, Class<T> valueType) throws IOException {
+        return objectMapper.readValue(new File(filePath), valueType);
     }
 }

@@ -1,13 +1,9 @@
 ---
+tours:
 - name: "Europe Adventure"
-  duration: 10
+  duration: 20
   price: 1500.0
 - name: "Asia Discovery"
   duration: 15
   price: 1200.0
-- name: "America Highlights"
-  duration: 7
-  price: 1800.0
-- name: "Africa Safari"
-  duration: 12
-  price: 1400.0
+foundationDate: "2015-05-15"

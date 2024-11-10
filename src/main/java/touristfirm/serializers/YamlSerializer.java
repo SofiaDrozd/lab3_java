@@ -2,21 +2,23 @@ package touristfirm.serializers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import touristfirm.Tour;
 
-public class YamlSerializer implements Serializer<Tour> {
-    private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+public class YamlSerializer {
+    private final ObjectMapper yamlMapper;
 
-    @Override
-    public void serialize(List<Tour> tours, String filePath) throws IOException {
-        yamlMapper.writeValue(new File(filePath), tours);
+    public YamlSerializer() {
+        yamlMapper = new ObjectMapper(new YAMLFactory());
+        yamlMapper.registerModule(new JavaTimeModule()); // Підтримка LocalDate
     }
 
-    @Override
-    public List<Tour> deserialize(String filePath) throws IOException {
-        return yamlMapper.readValue(new File(filePath), yamlMapper.getTypeFactory().constructCollectionType(List.class, Tour.class));
+    public void serialize(Object object, String filePath) throws IOException {
+        yamlMapper.writeValue(new File(filePath), object);
+    }
+
+    public <T> T deserialize(String filePath, Class<T> valueType) throws IOException {
+        return yamlMapper.readValue(new File(filePath), valueType);
     }
 }

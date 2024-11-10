@@ -1,15 +1,25 @@
 package touristfirm;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class TouristFirm {
     private List<Tour> tours;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")  // Формат дати
     private LocalDate foundationDate;
 
-    // конструктор для ініціалізації турів і дати створення
-    public TouristFirm(List<Tour> tours, LocalDate foundationDate) {
+    @JsonCreator
+    public TouristFirm(
+            @JsonProperty("tours") List<Tour> tours,
+            @JsonProperty("foundationDate") LocalDate foundationDate) {
         this.tours = tours;
         this.foundationDate = foundationDate;
     }
@@ -18,7 +28,10 @@ public class TouristFirm {
         return foundationDate;
     }
 
-    // дешевше за ціною
+    public List<Tour> getTours() {
+        return tours;
+    }
+
     public List<Tour> findToursCheaperThan(double maxPrice) {
         return tours.stream()
                 .filter(tour -> tour.getPrice() < maxPrice)
@@ -39,5 +52,13 @@ public class TouristFirm {
 
     public void printAllTours() {
         tours.forEach(System.out::println);
+    }
+
+    @Override
+    public String toString() {
+        return "TouristFirm{" +
+                "tours=" + tours +
+                ", foundationDate=" + foundationDate +
+                '}';
     }
 }

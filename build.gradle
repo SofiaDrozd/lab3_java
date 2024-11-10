@@ -10,15 +10,8 @@ repositories {
 }
 
 dependencies {
-    // Jackson для JSON
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
-
-    // Jackson для XML
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
-
-    // Jackson для YAML
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.3'
-
-    // Тестування
-    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3' // Додана залежність
 }

@@ -1,21 +1,23 @@
 package touristfirm.serializers;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import touristfirm.Tour;
 
-public class XmlSerializer implements Serializer<Tour> {
-    private final XmlMapper xmlMapper = new XmlMapper();
+public class XmlSerializer {
+    private final XmlMapper xmlMapper;
 
-    @Override
-    public void serialize(List<Tour> tours, String filePath) throws IOException {
-        xmlMapper.writeValue(new File(filePath), tours);
+    public XmlSerializer() {
+        xmlMapper = new XmlMapper();
+        xmlMapper.registerModule(new JavaTimeModule()); // Підтримка LocalDate
     }
 
-    @Override
-    public List<Tour> deserialize(String filePath) throws IOException {
-        return xmlMapper.readValue(new File(filePath), xmlMapper.getTypeFactory().constructCollectionType(List.class, Tour.class));
+    public void serialize(Object object, String filePath) throws IOException {
+        xmlMapper.writeValue(new File(filePath), object);
+    }
+
+    public <T> T deserialize(String filePath, Class<T> valueType) throws IOException {
+        return xmlMapper.readValue(new File(filePath), valueType);
     }
 }
